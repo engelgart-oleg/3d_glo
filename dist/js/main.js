@@ -1,0 +1,1 @@
+(()=>{var o={872(o){o.exports=()=>{console.log("one.js")}},206(o){o.exports=()=>{console.log("two.js")}}},r={};function e(s){var t=r[s];if(void 0!==t)return t.exports;var n=r[s]={exports:{}};return o[s](n,n.exports,e),n.exports}const s=e(872),t=e(206);s(),t()})();
