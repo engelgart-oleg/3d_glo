@@ -1,7 +1,5 @@
 // Подключаем модули:
-const one = require('./modules/one');
-const two = require('./modules/two');
+const timer = require('./modules/timer');
 
 // Вызов модулей:
-one();
-two();
+timer('10 March 2026');

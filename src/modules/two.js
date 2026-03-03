@@ -6,4 +6,4 @@ const twoModule = () => {
 }
 
 // Экспорт модульной функции:
-module.exports = twoModule;
+// module.exports = twoModule;

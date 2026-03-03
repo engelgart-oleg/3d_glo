@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Умный виджет времени</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <div class="background-decor"></div>
+  <div class="widget" id="widget">
+    <div class="widget-header">
+      <span id="icon-time">☀️</span>
+      <h1 id="time-of-day">Добрый день!</h1>
+    </div>
+
+    <div class="widget-body">
+      <div class="info-row">
+        <!-- <span class="label">Сегодня:</span> -->
+        <span class="value" id="today">Понедельник</span>
+      </div>
+      <div class="info-row">
+        <!-- <span class="label">Текущее время:</span> -->
+        <span class="value highlight" id="current-time">12:05:15 PM</span>
+      </div>
+      <div class="divider"></div>
+      <div class="info-footer">
+        <!-- <p>До Нового года осталось:</p> -->
+        <div class="countdown" id="new-year">175 дней</div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
