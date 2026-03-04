@@ -15,6 +15,18 @@
 	<meta name="msapplication-TileColor" content="#b91d47">
 	<meta name="theme-color" content="#ffffff">
   <script src="./dist/js/main.js" defer></script>
+  <style> 
+    html {
+      scroll-behavior: smooth !important;
+    }
+
+    /* Убираем потенциальный конфликт с фиксированным фоном на мобилках */
+    @media (max-width: 991px) {
+      main, .connect {
+        background-attachment: scroll !important;
+      }
+    }
+  </style>
 </head>
 
 <body>
