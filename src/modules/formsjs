@@ -1,0 +1,24 @@
+const forms = () => {
+  const allForms = document.querySelectorAll('form[name="user_form"]');
+  const modal = document.querySelector('.popup');
+
+  allForms.forEach(form => {
+      form.addEventListener('submit', (event) => {
+          event.preventDefault();
+
+          // Логика закрытия модального окна после заполнения и отправки формы
+          if (modal) {
+              modal.style.display = 'none';
+              // modal.style.opacity = '0';
+          }
+
+          // Очистка полей формы после отправки
+          form.reset();
+
+          // Здесь в будущем будет fetch запрос
+          console.log('Форма отправлена, окно закрыто, поля очищены!');
+      });
+  });
+};
+
+module.exports = forms;
