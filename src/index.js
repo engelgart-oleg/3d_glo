@@ -4,6 +4,7 @@ const menu = require('./modules/menu');
 const modal = require('./modules/modal');
 const calc = require('./modules/calc');
 const checkInputs = require('./modules/checkInputs');
+const tabs = require('./modules/tabs');
 // const forms = require('./modules/forms');
 
 // Вызов модулей:
@@ -12,3 +13,4 @@ menu();
 modal();
 calc(100); // передаем базовую стоимость за кв. метр
 checkInputs();
+tabs();
