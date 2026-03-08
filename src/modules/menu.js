@@ -1,24 +1,17 @@
 
 const menu = () => {
     const menuElement = document.querySelector('menu');
-    // Кнопка-мышка под формой (остается для плавного скролла)
-    const scrollBtn = document.querySelector('main a[href^="#"]');
-
+    
+    // Функция переключения 
     const toggleMenu = () => menuElement.classList.toggle('active-menu');
 
-    // Вспомогательная функция для плавного скролла
+    // Функция плавного скролла
     const smoothScroll = (e, link) => {
         const targetId = link.getAttribute('href').substring(1);
         const targetElement = document.getElementById(targetId);
 
         if (targetElement) {
             e.preventDefault();
-            
-            // Если меню открыто — закрываем
-            if (menuElement.classList.contains('active-menu')) {
-                toggleMenu();
-            }
-
             targetElement.scrollIntoView({
                 behavior: 'smooth',
                 block: 'start'
@@ -26,60 +19,40 @@ const menu = () => {
         }
     };
 
-    // ОБРАБОТЧИК №1: Делегирование внутри самого меню (ссылки и крестик)
-    menuElement.addEventListener('click', (e) => {
-        const target = e.target;
+    // ЕДИНЫЙ ОБРАБОТЧИК для всего функционала меню
+    document.addEventListener('click', (event) => {
+        const target = event.target;
 
-        // Если кликнули по крестику (или иконке внутри него)
-        if (target.closest('.close-btn')) {
-            e.preventDefault();
-            toggleMenu();
-        } 
-        // Если кликнули по ссылке в списке меню
-        else if (target.closest('ul li a')) {
-            smoothScroll(e, target.closest('a'));
-        }
-    });
-
-    // ОБРАБОТЧИК №2: Кнопка-бургер и кнопка-мышка (через делегирование на документ или родитель)
-    // Мы вешаем на document, чтобы "поймать" клик по бургеру в любом месте верстки
-    document.addEventListener('click', (e) => {
-        const target = e.target;
-
-        // 1. Ловим клик по бургеру (menuBtn)
+        // Открытие меню
         if (target.closest('.menu')) {
             toggleMenu();
+        } 
+        
+        // Закрытие и навигация 
+        else if (menuElement.classList.contains('active-menu')) {
+            
+            // Клик по крестику ИЛИ по пункту меню
+            if (target.closest('.close-btn') || target.closest('ul li a')) {
+                if (target.closest('a')) {
+                    smoothScroll(event, target.closest('a'));
+                }
+                toggleMenu();
+            } 
+            
+            // Клик "мимо" меню 
+            else if (!target.closest('menu')) {
+                toggleMenu();
+            }
         }
         
-        // 2. Ловим клик по кнопке-мышке (scrollBtn)
-        if (target.closest('main a[href^="#"]')) {
-            smoothScroll(e, target.closest('a'));
+        // Отдельно ловим клик по "мышке" (scrollBtn) вне зависимости от состояния меню
+        else if (target.closest('main a[href^="#"]')) {
+            smoothScroll(event, target.closest('a'));
         }
     });
 };
 
 module.exports = menu;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /*
