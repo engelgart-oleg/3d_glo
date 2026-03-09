@@ -1,3 +1,118 @@
+
+
+// преписали калькулятор по уроку 24
+const calc = (price = 100) => {
+  const calcBlock = document.querySelector('.calc-block');
+  const calcType = document.querySelector('.calc-type');
+  const calcSquare = document.querySelector('.calc-square');
+  const calcCount = document.querySelector('.calc-count');
+  const calcDay = document.querySelector('.calc-day');
+  const totalValue = document.getElementById('total');
+
+  const countCalc = () => {
+    const calcTypeValue = +calcType.options[calcType.selectedIndex].value;
+    const calcSquareValue = calcSquare.value;
+
+    let totalValue = 0;
+    let calcCountValue = 1;
+    let calcDayValue = 1;
+
+    if (calcCount.value > 1) {
+        calcCountValue += +calcCount.value / 10;     
+    }
+
+    if (calcDay.value && calcDay.value < 5) {
+        calcDayValue = 2;
+    } else if (calcDay.value && calcDay.value < 10) {
+        calcDayValue = 1.5;
+    }
+
+    if (calcType.value && calcSquare.value) {
+        totalValue = price * calcTypeValue * calcSquareValue * calcCountValue * calcDayValue;
+    } else {
+        totalValue = 0;
+    }
+    
+    total.textContent = totalValue;
+  }
+  
+  // можно использовать change вместо input
+  calcBlock.addEventListener('input', (e) => {
+    
+    if (e.target === calcType || e.target === calcSquare ||
+        e.target === calcCount || e.target === calcDay) {
+        countCalc();
+    }
+  });
+
+};
+
+module.exports = calc;
+
+
+/*
+// Переписанный калькулятор по уроку 24 с добавлением фильтрации ввода
+const calc = (price = 100) => {
+    const calcBlock = document.querySelector('.calc-block');
+    const calcType = document.querySelector('.calc-type');
+    const calcSquare = document.querySelector('.calc-square');
+    const calcCount = document.querySelector('.calc-count');
+    const calcDay = document.querySelector('.calc-day');
+    const totalValue = document.getElementById('total');
+
+    const countCalc = () => {
+        const calcTypeValue = +calcType.options[calcType.selectedIndex].value;
+        const calcSquareValue = +calcSquare.value;
+
+        let totalValueResult = 0; // Временная переменная для расчета
+        let calcCountValue = 1;
+        let calcDayValue = 1;
+
+        // Логика из таблицы: каждое помещение > 1 дает +10% 
+        if (calcCount.value > 1) {
+            calcCountValue += +calcCount.value / 10;     
+        }
+
+        // Логика сроков из таблицы
+        if (calcDay.value && calcDay.value < 5) {
+            calcDayValue = 2;
+        } else if (calcDay.value && calcDay.value < 10) {
+            calcDayValue = 1.5;
+        }
+
+        // Формула: Цена * Тип * Площадь * Помещения * Срок
+        if (calcTypeValue && calcSquareValue) {
+            totalValueResult = price * calcTypeValue * calcSquareValue * calcCountValue * calcDayValue;
+        } else {
+            totalValueResult = 0;
+        }
+        
+        // Выводим результат в span с id="total"
+        total.textContent = Math.round(totalValueResult);
+    };
+
+    // Единый обработчик для фильтрации и расчета
+    calcBlock.addEventListener('input', (e) => {
+        // Если ввод происходит в числовые поля — удаляем всё, кроме цифр
+        if (e.target === calcSquare || e.target === calcCount || e.target === calcDay) {
+            e.target.value = e.target.value.replace(/\D/g, '');
+        }
+
+        // При любом изменении в блоке калькулятора вызываем расчет
+        if (e.target.matches('select, input')) {
+            countCalc();
+        }
+    });
+};
+
+module.exports = calc;
+*/
+
+
+
+
+
+/*
 const calc = (price = 100) => {
     const calcBlock = document.querySelector('.calc-block');
     const calcType = document.querySelector('.calc-type');
@@ -49,3 +164,4 @@ const calc = (price = 100) => {
 };
 
 module.exports = calc;
+*/

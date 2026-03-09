@@ -8,7 +8,7 @@ const slider = ({
     const sliderBlock = document.querySelector(mainSelector);
     const slides = document.querySelectorAll(slideSelector);
     const dotsContainer = document.querySelector(dotsSelector);
-    const timeInterval = 1000;
+    const timeInterval = 2000;
 
     // ПРОВЕРКА 1: Существует ли главный блок слайдера
     if (!sliderBlock) {
