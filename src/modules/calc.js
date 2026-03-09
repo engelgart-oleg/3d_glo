@@ -1,6 +1,6 @@
 
 
-// преписали калькулятор по уроку 24
+// переписали калькулятор по уроку 24 / с добавлением фильтрации ввода и анимации цифр общей стоимости
 const calc = (price = 100) => {
   const calcBlock = document.querySelector('.calc-block');
   const calcType = document.querySelector('.calc-type');
@@ -9,11 +9,32 @@ const calc = (price = 100) => {
   const calcDay = document.querySelector('.calc-day');
   const totalValue = document.getElementById('total');
 
+  // Функция анимации, которая умеет считать в обе стороны
+  const animateValue = (start, end, duration) => {
+    let startTimestamp = null;
+    
+    const step = (timestamp) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+      
+      // Рассчитываем текущее значение: оно пойдет вверх, если end > start, 
+      // и вниз, если end < start.
+      const current = Math.floor(progress * (end - start) + start);
+      
+      totalValue.textContent = current;
+
+      if (progress < 1) {
+        window.requestAnimationFrame(step);
+      }
+    };
+    window.requestAnimationFrame(step);
+  };
+
   const countCalc = () => {
     const calcTypeValue = +calcType.options[calcType.selectedIndex].value;
     const calcSquareValue = calcSquare.value;
 
-    let totalValue = 0;
+    let totalValueResult = 0;
     let calcCountValue = 1;
     let calcDayValue = 1;
 
@@ -28,23 +49,31 @@ const calc = (price = 100) => {
     }
 
     if (calcType.value && calcSquare.value) {
-        totalValue = price * calcTypeValue * calcSquareValue * calcCountValue * calcDayValue;
+        totalValueResult = price * calcTypeValue * calcSquareValue * calcCountValue * calcDayValue;
     } else {
-        totalValue = 0;
+        totalValueResult = 0;
     }
     
-    total.textContent = totalValue;
+    // Получаем то, что сейчас написано на экране
+    const startValue = parseInt(totalValue.textContent) || 0;
+    const endValue = Math.round(totalValueResult);
+
+    // Если значения разные — запускаем «бег» цифр
+    if (startValue !== endValue) {
+        animateValue(startValue, endValue, 500);
+    }
   }
   
-  // можно использовать change вместо input
   calcBlock.addEventListener('input', (e) => {
+    if (e.target === calcSquare || e.target === calcCount || e.target === calcDay) {
+        e.target.value = e.target.value.replace(/\D/g, '');
+    }
     
     if (e.target === calcType || e.target === calcSquare ||
         e.target === calcCount || e.target === calcDay) {
         countCalc();
     }
   });
-
 };
 
 module.exports = calc;
