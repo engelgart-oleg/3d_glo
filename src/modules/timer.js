@@ -31,7 +31,7 @@ const timer = (deadline) => {
     timerSeconds.textContent = formatValue(getTime.seconds);
 
     // Проверка для самоконтроля (пункт 1 задания)
-    console.log('Тик таймера');
+    // console.log('Тик таймера');
 
     // Если время вышло, останавливаем интервал
     if (getTime.timeRemaining <= 0) {
