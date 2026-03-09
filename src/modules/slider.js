@@ -1,28 +1,44 @@
+const slider = ({
+    mainSelector,
+    slideSelector,
+    dotsSelector,
+    activeSlideClass = 'slide-active', // Значение по умолчанию
+    activeDotClass = 'dot-active'      // Значение по умолчанию
+}) => {
+    const sliderBlock = document.querySelector(mainSelector);
+    const slides = document.querySelectorAll(slideSelector);
+    const dotsContainer = document.querySelector(dotsSelector);
+    const timeInterval = 1000;
 
+    // ПРОВЕРКА 1: Существует ли главный блок слайдера
+    if (!sliderBlock) {
+        console.warn(`Slider: Элемент "${mainSelector}" не найден. Модуль остановлен.`);
+        return;
+    }
 
-const slider = () => {  
-    const sliderBlock = document.querySelector('.portfolio-content');
-    const slides = document.querySelectorAll('.portfolio-item');
-    const dotsContainer = document.querySelector('.portfolio-dots');
-    const timeInterval = 2000;
+    // ПРОВЕРКА 2: Существуют ли слайды
+    if (slides.length === 0) {
+        console.warn(`Slider: Слайды "${slideSelector}" не найдены. Модуль остановлен.`);
+        return;
+    }
 
     let currentSlide = 0;
     let interval;
 
-    // 1. Динамическая генерация точек
+    // Динамическая генерация точек
     const renderDots = () => {
-        dotsContainer.innerHTML = ''; // Очищаем на всякий случай
-        slides.forEach((slide, index) => {
+        if (!dotsContainer) return; // Если контейнера для точек нет, просто не рисуем их
+        dotsContainer.innerHTML = '';
+        slides.forEach((_, index) => {
             const dot = document.createElement('li');
             dot.classList.add('dot');
-            if (index === 0) dot.classList.add('dot-active');
+            if (index === 0) dot.classList.add(activeDotClass);
             dotsContainer.append(dot);
         });
     };
 
     renderDots();
 
-    // Переопределяем dots ПОСЛЕ рендера
     const dots = document.querySelectorAll('.dot');
 
     const prevSlide = (elems, index, strClass) => {
@@ -34,14 +50,14 @@ const slider = () => {
     };
 
     const autoSlide = () => {
-        prevSlide(slides, currentSlide, 'portfolio-item-active');
-        prevSlide(dots, currentSlide, 'dot-active');
+        prevSlide(slides, currentSlide, activeSlideClass);
+        prevSlide(dots, currentSlide, activeDotClass);
         
         currentSlide++;
         if (currentSlide >= slides.length) currentSlide = 0;
 
-        nextSlide(slides, currentSlide, 'portfolio-item-active');
-        nextSlide(dots, currentSlide, 'dot-active');
+        nextSlide(slides, currentSlide, activeSlideClass);
+        nextSlide(dots, currentSlide, activeDotClass);
     };
 
     const startSlide = (timer = 1500) => {
@@ -52,49 +68,44 @@ const slider = () => {
         clearInterval(interval);
     };
 
-    // ГЛАВНЫЙ ОБРАБОТЧИК КЛИКА
+    // Делегирование событий на sliderBlock
     sliderBlock.addEventListener('click', (e) => {
         e.preventDefault();
         const target = e.target;
 
-        // Если кликнули не по кнопке и не по точке — выходим
         if (!target.closest('.dot') && !target.closest('.portfolio-btn')) {
-            return;     
+            return;
         }
 
-        // Скрываем текущий слайд
-        prevSlide(slides, currentSlide, 'portfolio-item-active');
-        prevSlide(dots, currentSlide, 'dot-active');
+        prevSlide(slides, currentSlide, activeSlideClass);
+        prevSlide(dots, currentSlide, activeDotClass);
         
-        // Логика определения индекса
         if (target.closest('#arrow-right')) {
-            currentSlide++;      
+            currentSlide++;
         } else if (target.closest('#arrow-left')) {
-            currentSlide--;  
+            currentSlide--;
         } else if (target.closest('.dot')) {
-            // Вариант без forEach: находим индекс точки в массиве
             const dotArray = Array.from(dots);
             currentSlide = dotArray.indexOf(target.closest('.dot'));
         }
 
-        // Зацикливание
         if (currentSlide >= slides.length) currentSlide = 0;
         if (currentSlide < 0) currentSlide = slides.length - 1;
 
-        // Показываем новый слайд
-        nextSlide(slides, currentSlide, 'portfolio-item-active');
-        nextSlide(dots, currentSlide, 'dot-active');
+        nextSlide(slides, currentSlide, activeSlideClass);
+        nextSlide(dots, currentSlide, activeDotClass);
     });
 
-    // Остановка/запуск при наведении
-    sliderBlock.addEventListener('mouseenter', (e) => {
-        if (e.target.closest('.dot') || e.target.closest('.portfolio-btn')) {
-            stopSlide();    
+  sliderBlock.addEventListener('mouseenter', (e) => {
+        const target = e.target;
+        if (target.closest('.dot') || target.closest('.portfolio-btn')) {
+            stopSlide();
         }
     }, true);
 
-    sliderBlock.addEventListener('mouseleave', (e) => {
-        if (e.target.closest('.dot') || e.target.closest('.portfolio-btn')) {  
+  sliderBlock.addEventListener('mouseleave', (e) => {
+        const target = e.target;
+        if (target.closest('.dot') || target.closest('.portfolio-btn')) {
             startSlide(timeInterval);
         }
     }, true);
@@ -103,6 +114,9 @@ const slider = () => {
 };
 
 module.exports = slider;
+
+
+
 
 
 

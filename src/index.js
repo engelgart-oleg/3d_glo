@@ -16,5 +16,13 @@ modal();
 calc(100); // передаем базовую стоимость за кв. метр
 checkInputs();
 tabs();
-slider();
+
+// Передаем настройки: селектор блока, слайдов, контейнера точек и кастомные классы активности
+slider({
+  mainSelector: '.portfolio-content',
+  slideSelector: '.portfolio-item',
+  dotsSelector: '.portfolio-dots',
+  activeSlideClass: 'portfolio-item-active',
+  activeDotClass: 'dot-active'
+});
 sliderCarousel();
