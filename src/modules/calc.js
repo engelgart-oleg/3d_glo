@@ -1,6 +1,8 @@
 
 
 // переписали калькулятор по уроку 24 / с добавлением фильтрации ввода и анимации цифр общей стоимости
+const { animate } = require('./helpers');
+
 const calc = (price = 100) => {
   const calcBlock = document.querySelector('.calc-block');
   const calcType = document.querySelector('.calc-type');
@@ -8,27 +10,6 @@ const calc = (price = 100) => {
   const calcCount = document.querySelector('.calc-count');
   const calcDay = document.querySelector('.calc-day');
   const totalValue = document.getElementById('total');
-
-  // Функция анимации, которая умеет считать в обе стороны
-  const animateValue = (start, end, duration) => {
-    let startTimestamp = null;
-    
-    const step = (timestamp) => {
-      if (!startTimestamp) startTimestamp = timestamp;
-      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-      
-      // Рассчитываем текущее значение: оно пойдет вверх, если end > start, 
-      // и вниз, если end < start.
-      const current = Math.floor(progress * (end - start) + start);
-      
-      totalValue.textContent = current;
-
-      if (progress < 1) {
-        window.requestAnimationFrame(step);
-      }
-    };
-    window.requestAnimationFrame(step);
-  };
 
   const countCalc = () => {
     const calcTypeValue = +calcType.options[calcType.selectedIndex].value;
@@ -54,13 +35,22 @@ const calc = (price = 100) => {
         totalValueResult = 0;
     }
     
-    // Получаем то, что сейчас написано на экране
     const startValue = parseInt(totalValue.textContent) || 0;
     const endValue = Math.round(totalValueResult);
 
-    // Если значения разные — запускаем «бег» цифр
     if (startValue !== endValue) {
-        animateValue(startValue, endValue, 500);
+        // Используем универсальную функцию animate
+        animate({
+            duration: 500,
+            timing(timeFraction) {
+                return timeFraction * timeFraction; // Здесь меняется анимация [* timeFraction]
+            },
+            draw(progress) {
+                // Вычисляем текущее значение в зависимости от прогресса
+                const current = Math.floor(startValue + (endValue - startValue) * progress);
+                totalValue.textContent = current;
+            }
+        });
     }
   }
   

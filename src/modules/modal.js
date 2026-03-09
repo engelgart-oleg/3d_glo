@@ -1,3 +1,61 @@
+
+const { animate } = require('./helpers');
+
+const modal = () => {
+  const modalElement = document.querySelector('.popup');
+  const buttons = document.querySelectorAll('.popup-btn');
+  const popupContent = modalElement.querySelector('.popup-content');
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      modalElement.style.display = 'block';
+      
+      // Начальные стили перед анимацией
+      modalElement.style.opacity = 0;
+      popupContent.style.left = '50%'; 
+      popupContent.style.transform = 'translateX(-50%)'; 
+
+      animate({
+        duration: 500,
+        timing(timeFraction) {
+          return timeFraction;
+        },
+        draw(progress) {
+          modalElement.style.opacity = progress;
+          // Плавное выплывание: от 0 до 15% сверху
+          popupContent.style.top = (progress * 15) + '%';
+        }
+      });
+    });
+  });
+
+  modalElement.addEventListener('click', (e) => {
+    if (!e.target.closest('.popup-content') || e.target.classList.contains('popup-close')) {
+      animate({
+        duration: 300,
+        timing(timeFraction) {
+          return timeFraction;
+        },
+        draw(progress) {
+          modalElement.style.opacity = 1 - progress;
+          if (progress === 1) {
+            modalElement.style.display = 'none';
+          }
+        }
+      });
+    }
+  });
+};
+
+module.exports = modal;
+
+
+
+
+
+
+
+/*
 const modal = () => {
   const modal = document.querySelector('.popup');
   const buttons = document.querySelectorAll('.popup-btn');
@@ -16,7 +74,7 @@ const modal = () => {
 }
 
 module.exports = modal;
-
+*/
 
 /*
 const modal = () => {
