@@ -6,6 +6,7 @@ const calc = require('./modules/calc');
 const checkInputs = require('./modules/checkInputs');
 const tabs = require('./modules/tabs');
 const slider = require('./modules/slider');
+const sliderCarousel = require('./modules/slider_carousel');
 // const forms = require('./modules/forms');
 
 // Вызов модулей:
@@ -16,3 +17,4 @@ calc(100); // передаем базовую стоимость за кв. ме
 checkInputs();
 tabs();
 slider();
+sliderCarousel();

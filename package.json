@@ -11,9 +11,13 @@
     "watch": "webpack --watch --mode=development",
     "start": "webpack serve --mode=development --open"
   },
+  "dependencies": {
+    "swiper": "^12.1.2"
+  },
   "devDependencies": {
     "webpack": "^5.105.3",
     "webpack-cli": "^6.0.1",
     "webpack-dev-server": "^5.2.3"
   }
+  
 }
